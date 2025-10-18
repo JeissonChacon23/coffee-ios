@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct coffee_iosApp: App {
+    init() {
+        // Configurar Firebase
+        FirebaseApp.configure()
+        
+        // Configurar logging
+        Logger.shared.setupLogging()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }
