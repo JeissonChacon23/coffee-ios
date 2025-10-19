@@ -324,10 +324,9 @@ struct FormSectionHeader: View {
 }
 
 #Preview {
-    @State var showSignUp = true
-    return SignUpView(
+    SignUpView(
         viewModel: AuthViewModelFactory.makeAuthViewModel(),
-        showSignUp: $showSignUp
+        showSignUp: .constant(true)
     )
     .preferredColorScheme(.dark)
 }

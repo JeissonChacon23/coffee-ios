@@ -10,7 +10,7 @@ import Foundation
 extension String {
     // MARK: - Validation Methods
     var isValidEmail: Bool {
-        let regex = AppConstants.Validation.emailRegex
+        let regex: String = AppConstants.Validation.emailRegex
         return self.range(of: regex, options: .regularExpression) != nil
     }
     
@@ -19,12 +19,12 @@ extension String {
     }
     
     var isValidPhone: Bool {
-        let regex = AppConstants.Validation.phoneRegex
+        let regex: String = AppConstants.Validation.phoneRegex
         return self.range(of: regex, options: .regularExpression) != nil
     }
     
     var isValidCedula: Bool {
-        let regex = AppConstants.Validation.cedulaRegex
+        let regex: String = AppConstants.Validation.cedulaRegex
         return self.range(of: regex, options: .regularExpression) != nil
     }
     
@@ -33,8 +33,8 @@ extension String {
         return self.trimmingCharacters(in: .whitespaces)
     }
     
-    var isEmpty: Bool {
-        return self.trimmed.isEmpty
+    var isTrimmedEmpty: Bool {
+        return self.trimmingCharacters(in: .whitespaces).isEmpty
     }
     
     // MARK: - Case Methods

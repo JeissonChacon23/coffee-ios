@@ -46,48 +46,29 @@ class DIContainer {
         return SignOutUseCase(authRepository: authRepository)
     }
     
-    // MARK: - Use Cases - Towns (Placeholder para después)
-    func makeGetTownsUseCase() -> GetTownsUseCaseProtocol {
-        // Cuando implementemos TownRepository
-        let townRepository = makeTownRepository()
-        return GetTownsUseCase(townRepository: townRepository)
+    // MARK: - Use Cases - Towns (Placeholder - será implementado después)
+    func makeGetTownsUseCase() -> GetTownsUseCaseProtocol? {
+        // Por ahora retorna nil hasta que implementemos TownRepository
+        return nil
     }
     
-    func makeGetTownDetailUseCase() -> GetTownDetailUseCaseProtocol {
-        let townRepository = makeTownRepository()
-        let coffeeRepository = makeCoffeeRepository()
-        let farmerRepository = makeCoffeeFarmerRepository()
-        return GetTownDetailUseCase(
-            townRepository: townRepository,
-            coffeeRepository: coffeeRepository,
-            farmerRepository: farmerRepository
-        )
+    func makeGetTownDetailUseCase() -> GetTownDetailUseCaseProtocol? {
+        // Por ahora retorna nil hasta que implementemos TownRepository
+        return nil
     }
     
-    // MARK: - Use Cases - Coffees
-    func makeGetCoffeesUseCase() -> GetCoffeesUseCaseProtocol {
-        let coffeeRepository = makeCoffeeRepository()
-        return GetCoffeesUseCase(coffeeRepository: coffeeRepository)
+    // MARK: - Use Cases - Coffees (Placeholder - será implementado después)
+    func makeGetCoffeesUseCase() -> GetCoffeesUseCaseProtocol? {
+        // Por ahora retorna nil hasta que implementemos CoffeeRepository
+        return nil
     }
     
-    func makeManageFavoritesUseCase() -> ManageFavoritesUseCaseProtocol {
-        let coffeeRepository = makeCoffeeRepository()
-        return ManageFavoritesUseCase(coffeeRepository: coffeeRepository)
+    func makeManageFavoritesUseCase() -> ManageFavoritesUseCaseProtocol? {
+        // Por ahora retorna nil hasta que implementemos CoffeeRepository
+        return nil
     }
     
-    // MARK: - Repositories Placeholder (Implementar después)
-    private func makeTownRepository() -> ITownRepository {
-        // Placeholder - se implementará después
-        fatalError("TownRepository not yet implemented")
-    }
-    
-    private func makeCoffeeRepository() -> ICoffeeRepository {
-        // Placeholder - se implementará después
-        fatalError("CoffeeRepository not yet implemented")
-    }
-    
-    private func makeCoffeeFarmerRepository() -> ICoffeeFarmerRepository {
-        // Placeholder - se implementará después
-        fatalError("CoffeeFarmerRepository not yet implemented")
-    }
+    // MARK: - Repositories Placeholder (Se implementarán después en Opción B)
+    // Aquí es donde irán TownRepository, CoffeeRepository, CoffeeFarmerRepository
+    // cuando las implementemos en el Data Layer
 }

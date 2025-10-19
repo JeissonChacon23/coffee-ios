@@ -11,7 +11,6 @@ struct ForgotPasswordView: View {
     @ObservedObject var viewModel: AuthViewModel
     @Binding var showForgotPassword: Bool
     @State private var email = ""
-    @State private var showSuccessAlert = false
     
     var isValidEmail: Bool {
         let regex = AppConstants.Validation.emailRegex
@@ -196,10 +195,9 @@ struct ForgotPasswordView: View {
 }
 
 #Preview {
-    @State var showForgotPassword = true
-    return ForgotPasswordView(
+    ForgotPasswordView(
         viewModel: AuthViewModelFactory.makeAuthViewModel(),
-        showForgotPassword: $showForgotPassword
+        showForgotPassword: .constant(true)
     )
     .preferredColorScheme(.dark)
 }
