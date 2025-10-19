@@ -18,11 +18,35 @@ class DIContainer {
         return FirebaseAuthDataSource()
     }
     
+    func makeFirebaseTownDataSource() -> FirebaseTownDataSourceProtocol {
+        return FirebaseTownDataSource()
+    }
+    
+    func makeFirebaseCoffeeDataSource() -> FirebaseCoffeeDataSourceProtocol {
+        return FirebaseCoffeeDataSource()
+    }
+    
+    func makeFirebaseCoffeeFarmerDataSource() -> FirebaseCoffeeFarmerDataSourceProtocol {
+        return FirebaseCoffeeFarmerDataSource()
+    }
+    
     // MARK: - Repositories
     func makeAuthRepository() -> IAuthRepository {
         let dataSource = makeFirebaseAuthDataSource()
         let mapper = UserMapper()
         return AuthRepository(dataSource: dataSource, userMapper: mapper)
+    }
+    
+    func makeTownRepository() -> ITownRepository {
+        let dataSource = makeFirebaseTownDataSource()
+        let mapper = TownMapper()
+        return TownRepository(dataSource: dataSource, mapper: mapper)
+    }
+    
+    func makeCoffeeRepository() -> ICoffeeRepository {
+        let dataSource = makeFirebaseCoffeeDataSource()
+        let mapper = CoffeeMapper()
+        return CoffeeRepository(dataSource: dataSource, mapper: mapper)
     }
     
     // MARK: - Use Cases - Auth
@@ -46,29 +70,37 @@ class DIContainer {
         return SignOutUseCase(authRepository: authRepository)
     }
     
-    // MARK: - Use Cases - Towns (Placeholder - será implementado después)
-    func makeGetTownsUseCase() -> GetTownsUseCaseProtocol? {
-        // Por ahora retorna nil hasta que implementemos TownRepository
-        return nil
+    // MARK: - Use Cases - Towns
+    func makeGetTownsUseCase() -> GetTownsUseCaseProtocol {
+        let townRepository = makeTownRepository()
+        return GetTownsUseCase(townRepository: townRepository)
     }
     
-    func makeGetTownDetailUseCase() -> GetTownDetailUseCaseProtocol? {
-        // Por ahora retorna nil hasta que implementemos TownRepository
-        return nil
+    func makeGetTownDetailUseCase() -> GetTownDetailUseCaseProtocol {
+        let townRepository = makeTownRepository()
+        let coffeeRepository = makeCoffeeRepository()
+        let farmerRepository = makeCoffeeFarmerRepository()
+        return GetTownDetailUseCase(
+            townRepository: townRepository,
+            coffeeRepository: coffeeRepository,
+            farmerRepository: farmerRepository
+        )
     }
     
-    // MARK: - Use Cases - Coffees (Placeholder - será implementado después)
-    func makeGetCoffeesUseCase() -> GetCoffeesUseCaseProtocol? {
-        // Por ahora retorna nil hasta que implementemos CoffeeRepository
-        return nil
+    // MARK: - Use Cases - Coffees
+    func makeGetCoffeesUseCase() -> GetCoffeesUseCaseProtocol {
+        let coffeeRepository = makeCoffeeRepository()
+        return GetCoffeesUseCase(coffeeRepository: coffeeRepository)
     }
     
-    func makeManageFavoritesUseCase() -> ManageFavoritesUseCaseProtocol? {
-        // Por ahora retorna nil hasta que implementemos CoffeeRepository
-        return nil
+    func makeManageFavoritesUseCase() -> ManageFavoritesUseCaseProtocol {
+        let coffeeRepository = makeCoffeeRepository()
+        return ManageFavoritesUseCase(coffeeRepository: coffeeRepository)
     }
     
-    // MARK: - Repositories Placeholder (Se implementarán después en Opción B)
-    // Aquí es donde irán TownRepository, CoffeeRepository, CoffeeFarmerRepository
-    // cuando las implementemos en el Data Layer
+    // MARK: - Repositories Placeholder (CoffeeFarmer - será implementado después)
+    private func makeCoffeeFarmerRepository() -> ICoffeeFarmerRepository {
+        // Placeholder - se implementará después
+        fatalError("CoffeeFarmerRepository not yet implemented")
+    }
 }

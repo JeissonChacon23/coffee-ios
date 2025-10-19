@@ -18,7 +18,7 @@ class CoffeeMapper {
             description: coffee.description,
             type: coffee.type.rawValue,
             roastLevel: coffee.roastLevel.rawValue,
-            pricePerKilo: coffee.pricePerKilo,
+            pricePerKilo: coffee.pricePerUnit,
             availableQuantity: coffee.availableQuantity,
             imageURL: coffee.imageURL,
             farmerID: coffee.farmerID,
@@ -36,7 +36,7 @@ class CoffeeMapper {
     /// Maps CoffeeDTO (Data) to Coffee (Domain)
     func mapToDomain(_ coffeeDTO: CoffeeDTO) -> Coffee {
         let coffeeType = Coffee.CoffeeType(rawValue: coffeeDTO.type) ?? .arabica
-        let roastLevel = Coffee.RoastLevel(rawValue: coffeeDTO.roastLevel) ?? .medio
+        let roastLevel = Coffee.RoastLevel(rawValue: coffeeDTO.roastLevel) ?? .medium
         
         return Coffee(
             id: coffeeDTO.id,
@@ -44,7 +44,7 @@ class CoffeeMapper {
             description: coffeeDTO.description,
             type: coffeeType,
             roastLevel: roastLevel,
-            pricePerKilo: coffeeDTO.pricePerKilo,
+            pricePerUnit: coffeeDTO.pricePerKilo,
             availableQuantity: coffeeDTO.availableQuantity,
             imageURL: coffeeDTO.imageURL,
             farmerID: coffeeDTO.farmerID,

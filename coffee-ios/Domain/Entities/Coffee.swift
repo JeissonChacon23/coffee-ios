@@ -9,34 +9,34 @@ import Foundation
 
 struct Coffee: Identifiable, Codable {
     let id: String
-    let nombre: String
-    let descripcion: String
-    let tipo: CoffeeType
-    let nivelTostado: RoastLevel
-    let precioKilo: Double
-    let cantidadDisponible: Int
-    let imagenURL: String
-    let caficultorID: String
+    let name: String
+    let description: String
+    let type: CoffeeType
+    let roastLevel: RoastLevel
+    let pricePerUnit: Double // Price per 453gr unit
+    let availableQuantity: Int // Units available
+    let imageURL: String
+    let farmerID: String
     let townID: String
-    let calificacion: Double
-    let notas: [String]
-    let altitud: Int
-    let variedades: [String]
-    let certificaciones: [String]
-    let esFavorito: Bool
-    let fechaCreacion: Date
+    let rating: Double
+    let notes: [String]
+    let altitude: Int
+    let varieties: [String]
+    let certifications: [String]
+    let isFavorite: Bool
+    let createdDate: Date
     
     enum CoffeeType: String, Codable {
         case arabica
         case robusta
-        case hibrido
+        case hybrid
     }
     
     enum RoastLevel: String, Codable {
-        case claro = "Claro"
-        case medio = "Medio"
-        case oscuro = "Oscuro"
-        case muyOscuro = "Muy Oscuro"
+        case light = "Light"
+        case medium = "Medium"
+        case dark = "Dark"
+        case veryDark = "Very Dark"
     }
 }
 
@@ -45,22 +45,22 @@ extension Coffee {
     static var preview: Coffee {
         Coffee(
             id: UUID().uuidString,
-            nombre: "Café Supremo Antioqueño",
-            descripcion: "Café de altura con notas de chocolate y caramelo, cultivado en las montañas de Antioquia.",
-            tipo: .arabica,
-            nivelTostado: .medio,
-            precioKilo: 45000,
-            cantidadDisponible: 50,
-            imagenURL: "https://example.com/coffee.jpg",
-            caficultorID: UUID().uuidString,
+            name: "Premium Antioquia Coffee",
+            description: "High altitude coffee with chocolate and caramel notes, grown in the mountains of Antioquia.",
+            type: .arabica,
+            roastLevel: .medium,
+            pricePerUnit: 45000, // Price per 453gr unit in COP
+            availableQuantity: 50,
+            imageURL: "https://example.com/coffee.jpg",
+            farmerID: UUID().uuidString,
             townID: UUID().uuidString,
-            calificacion: 4.8,
-            notas: ["Chocolate", "Caramelo", "Nueces"],
-            altitud: 1800,
-            variedades: ["Typica", "Bourbon"],
-            certificaciones: ["Orgánico", "Comercio Justo"],
-            esFavorito: false,
-            fechaCreacion: Date()
+            rating: 4.8,
+            notes: ["Chocolate", "Caramel", "Nuts"],
+            altitude: 1800,
+            varieties: ["Typica", "Bourbon"],
+            certifications: ["Organic", "Fair Trade"],
+            isFavorite: false,
+            createdDate: Date()
         )
     }
 }

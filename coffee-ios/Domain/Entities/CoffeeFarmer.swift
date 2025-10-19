@@ -10,34 +10,34 @@ import Foundation
 struct CoffeeFarmer: Identifiable, Codable {
     let id: String
     let userID: String
-    let nombreFinca: String
-    let descripcionFinca: String
+    let name: String
+    let description: String
     let townID: String
-    let hectareas: Double
-    let altitud: Int
-    let tiposCafe: [String]
-    let certificaciones: [String]
-    let imagenFincaURL: String
-    let latitud: Double
-    let longitud: Double
-    let estado: FarmerStatus
-    let produccionAnual: Double
-    let contactoPrincipal: String
-    let telefonoContacto: String
-    let correoContacto: String
-    let experiencia: Int
-    let metodosCultivo: [String]
-    let calificacion: Double
-    let numeroProductos: Int
-    let estaVerificado: Bool
-    let fechaSolicitud: Date
-    let fechaVerificacion: Date?
+    let hectares: Double
+    let altitude: Int
+    let coffeeTypes: [String]
+    let certifications: [String]
+    let imageURL: String
+    let latitude: Double
+    let longitude: Double
+    let status: FarmerStatus
+    let annualProduction: Double // in kg
+    let primaryContact: String
+    let primaryPhone: String
+    let primaryEmail: String
+    let yearsOfExperience: Int
+    let cultivationMethods: [String]
+    let rating: Double
+    let productCount: Int
+    let isVerified: Bool
+    let applicationDate: Date
+    let verificationDate: Date?
     
     enum FarmerStatus: String, Codable {
-        case pendiente = "Pendiente"
-        case aprobado = "Aprobado"
-        case rechazado = "Rechazado"
-        case suspendido = "Suspendido"
+        case pending = "Pending"
+        case approved = "Approved"
+        case rejected = "Rejected"
+        case suspended = "Suspended"
     }
 }
 
@@ -47,28 +47,28 @@ extension CoffeeFarmer {
         CoffeeFarmer(
             id: UUID().uuidString,
             userID: UUID().uuidString,
-            nombreFinca: "Finca El Paraíso",
-            descripcionFinca: "Finca tradicional dedicada al cultivo de café arabica de calidad superior.",
+            name: "Paradise Farm",
+            description: "Traditional farm dedicated to growing superior quality arabica coffee.",
             townID: UUID().uuidString,
-            hectareas: 15.5,
-            altitud: 1900,
-            tiposCafe: ["Arabica", "Bourbon"],
-            certificaciones: ["Orgánico", "Comercio Justo", "Rainforest Alliance"],
-            imagenFincaURL: "https://example.com/finca.jpg",
-            latitud: 6.2442,
-            longitud: -75.5812,
-            estado: .aprobado,
-            produccionAnual: 5000,
-            contactoPrincipal: "Carlos García",
-            telefonoContacto: "3101234567",
-            correoContacto: "carlos@fincaparaiso.com",
-            experiencia: 20,
-            metodosCultivo: ["Sombrío tradicional", "Compostaje"],
-            calificacion: 4.9,
-            numeroProductos: 8,
-            estaVerificado: true,
-            fechaSolicitud: Date(timeIntervalSinceNow: -86400 * 30),
-            fechaVerificacion: Date(timeIntervalSinceNow: -86400 * 25)
+            hectares: 15.5,
+            altitude: 1900,
+            coffeeTypes: ["Arabica", "Bourbon"],
+            certifications: ["Organic", "Fair Trade", "Rainforest Alliance"],
+            imageURL: "https://example.com/farm.jpg",
+            latitude: 6.2442,
+            longitude: -75.5812,
+            status: .approved,
+            annualProduction: 5000,
+            primaryContact: "Carlos García",
+            primaryPhone: "3101234567",
+            primaryEmail: "carlos@paraisfarm.com",
+            yearsOfExperience: 20,
+            cultivationMethods: ["Traditional shade-grown", "Composting"],
+            rating: 4.9,
+            productCount: 8,
+            isVerified: true,
+            applicationDate: Date(timeIntervalSinceNow: -86400 * 30),
+            verificationDate: Date(timeIntervalSinceNow: -86400 * 25)
         )
     }
 }

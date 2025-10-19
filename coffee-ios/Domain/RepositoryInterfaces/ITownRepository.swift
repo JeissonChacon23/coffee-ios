@@ -23,7 +23,7 @@ protocol ITownRepository {
     /// Obtiene towns por departamento
     /// - Parameter departamento: Nombre del departamento
     /// - Returns: Array de towns en ese departamento
-    func fetchTowns(byDepartamento departamento: String) async throws -> [Town]
+    func fetchTowns(byDepartment department: String) async throws -> [Town]
     
     /// Busca towns por nombre
     /// - Parameter query: Texto a buscar
