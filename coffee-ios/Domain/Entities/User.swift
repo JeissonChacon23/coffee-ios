@@ -9,26 +9,26 @@ import Foundation
 
 struct User: Identifiable, Codable {
     let id: String
-    let nombres: String
-    let apellidos: String
-    let cedula: String
-    let correo: String
-    let celular: String
-    let departamento: String
-    let ciudad: String
-    let codigoPostal: String
-    let direccion: String
-    let fechaNacimiento: Date
-    let tipo: UserType
-    let fechaRegistro: Date
+    let firstName: String
+    let lastName: String
+    let idCard: String
+    let email: String
+    let phone: String
+    let state: String
+    let city: String
+    let zipCode: String
+    let address: String
+    let bornDate: Date
+    let type: UserType
+    let registrationDate: Date
     
-    var nombreCompleto: String {
-        "\(nombres) \(apellidos)"
+    var fullName: String {
+        "\(firstName) \(lastName)"
     }
     
     enum UserType: String, Codable {
-        case cliente
-        case caficultor
+        case customer
+        case coffeeFarmer
         case admin
     }
 }
@@ -38,18 +38,18 @@ extension User {
     static var preview: User {
         User(
             id: UUID().uuidString,
-            nombres: "Juan",
-            apellidos: "Pérez",
-            cedula: "1234567890",
-            correo: "juan@example.com",
-            celular: "3101234567",
-            departamento: "Cundinamarca",
-            ciudad: "Bogotá",
-            codigoPostal: "110111",
-            direccion: "Cra 7 #45-89",
-            fechaNacimiento: Date(timeIntervalSince1970: 631152000),
-            tipo: .cliente,
-            fechaRegistro: Date()
+            firstName: "Juan",
+            lastName: "Pérez",
+            idCard: "1234567890",
+            email: "juan@example.com",
+            phone: "3101234567",
+            state: "Cundinamarca",
+            city: "Bogotá",
+            zipCode: "110111",
+            address: "Cra 7 #45-89",
+            bornDate: Date(timeIntervalSince1970: 631152000),
+            type: .customer,
+            registrationDate: Date()
         )
     }
 }

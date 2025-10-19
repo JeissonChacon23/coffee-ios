@@ -6,3 +6,88 @@
 //
 
 import Foundation
+
+// MARK: - DIContainer (Singleton)
+class DIContainer {
+    static let shared = DIContainer()
+    
+    private init() {}
+    
+    // MARK: - Data Sources
+    func makeFirebaseAuthDataSource() -> FirebaseAuthDataSourceProtocol {
+        return FirebaseAuthDataSource()
+    }
+    
+    // MARK: - Repositories
+    func makeAuthRepository() -> IAuthRepository {
+        let dataSource = makeFirebaseAuthDataSource()
+        let mapper = UserMapper()
+        return AuthRepository(dataSource: dataSource, userMapper: mapper)
+    }
+    
+    // MARK: - Use Cases - Auth
+    func makeSignUpUseCase() -> SignUpUseCaseProtocol {
+        let authRepository = makeAuthRepository()
+        return SignUpUseCase(authRepository: authRepository)
+    }
+    
+    func makeSignInUseCase() -> SignInUseCaseProtocol {
+        let authRepository = makeAuthRepository()
+        return SignInUseCase(authRepository: authRepository)
+    }
+    
+    func makeResetPasswordUseCase() -> ResetPasswordUseCaseProtocol {
+        let authRepository = makeAuthRepository()
+        return ResetPasswordUseCase(authRepository: authRepository)
+    }
+    
+    func makeSignOutUseCase() -> SignOutUseCaseProtocol {
+        let authRepository = makeAuthRepository()
+        return SignOutUseCase(authRepository: authRepository)
+    }
+    
+    // MARK: - Use Cases - Towns (Placeholder para después)
+    func makeGetTownsUseCase() -> GetTownsUseCaseProtocol {
+        // Cuando implementemos TownRepository
+        let townRepository = makeTownRepository()
+        return GetTownsUseCase(townRepository: townRepository)
+    }
+    
+    func makeGetTownDetailUseCase() -> GetTownDetailUseCaseProtocol {
+        let townRepository = makeTownRepository()
+        let coffeeRepository = makeCoffeeRepository()
+        let farmerRepository = makeCoffeeFarmerRepository()
+        return GetTownDetailUseCase(
+            townRepository: townRepository,
+            coffeeRepository: coffeeRepository,
+            farmerRepository: farmerRepository
+        )
+    }
+    
+    // MARK: - Use Cases - Coffees
+    func makeGetCoffeesUseCase() -> GetCoffeesUseCaseProtocol {
+        let coffeeRepository = makeCoffeeRepository()
+        return GetCoffeesUseCase(coffeeRepository: coffeeRepository)
+    }
+    
+    func makeManageFavoritesUseCase() -> ManageFavoritesUseCaseProtocol {
+        let coffeeRepository = makeCoffeeRepository()
+        return ManageFavoritesUseCase(coffeeRepository: coffeeRepository)
+    }
+    
+    // MARK: - Repositories Placeholder (Implementar después)
+    private func makeTownRepository() -> ITownRepository {
+        // Placeholder - se implementará después
+        fatalError("TownRepository not yet implemented")
+    }
+    
+    private func makeCoffeeRepository() -> ICoffeeRepository {
+        // Placeholder - se implementará después
+        fatalError("CoffeeRepository not yet implemented")
+    }
+    
+    private func makeCoffeeFarmerRepository() -> ICoffeeFarmerRepository {
+        // Placeholder - se implementará después
+        fatalError("CoffeeFarmerRepository not yet implemented")
+    }
+}

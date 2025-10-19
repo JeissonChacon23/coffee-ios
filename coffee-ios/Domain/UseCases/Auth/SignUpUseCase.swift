@@ -30,9 +30,9 @@ struct SignUpUseCaseOutput {
 
 // MARK: - SignUpUseCase Protocol
 protocol SignUpUseCaseProtocol {
-    /// Ejecuta el caso de uso de registro
-    /// - Parameter input: Datos de entrada necesarios para el registro
-    /// - Returns: Usuario registrado y mensaje de confirmación
+    /// Executes the sign up use case
+    /// - Parameter input: Required data for registration
+    /// - Returns: Registered user and confirmation message
     func execute(input: SignUpUseCaseInput) async throws -> SignUpUseCaseOutput
 }
 
@@ -45,59 +45,59 @@ class SignUpUseCase: SignUpUseCaseProtocol {
     }
     
     func execute(input: SignUpUseCaseInput) async throws -> SignUpUseCaseOutput {
-        // Validar email
+        // Validate email
         let emailValidation = EmailValidator.validate(input.email)
         guard emailValidation.isValid else {
-            throw SignUpUseCaseError.invalidEmail(emailValidation.errorMessage ?? "Email inválido")
+            throw SignUpUseCaseError.invalidEmail(emailValidation.errorMessage ?? "Invalid email")
         }
         
-        // Validar contraseña
+        // Validate password
         let passwordValidation = PasswordValidator.validate(input.password)
         guard passwordValidation.isValid else {
-            throw SignUpUseCaseError.weakPassword(passwordValidation.errorMessage ?? "Contraseña débil")
+            throw SignUpUseCaseError.weakPassword(passwordValidation.errorMessage ?? "Weak password")
         }
         
-        // Validar cédula
+        // Validate cedula
         let cedulaValidation = CedulaValidator.validate(input.idCard)
         guard cedulaValidation.isValid else {
-            throw SignUpUseCaseError.invalidCedula(cedulaValidation.errorMessage ?? "Cédula inválida")
+            throw SignUpUseCaseError.invalidCedula(cedulaValidation.errorMessage ?? "Invalid ID card")
         }
         
-        // Validar celular
+        // Validate phone
         let phoneValidation = PhoneValidator.validate(input.phone)
         guard phoneValidation.isValid else {
-            throw SignUpUseCaseError.invalidPhone(phoneValidation.errorMessage ?? "Celular inválido")
+            throw SignUpUseCaseError.invalidPhone(phoneValidation.errorMessage ?? "Invalid phone")
         }
         
-        // Crear el usuario
+        // Create user
         let newUser = User(
             id: "",
-            nombres: input.name.trimmed,
-            apellidos: input.lastName.trimmed,
-            cedula: input.idCard.trimmed,
-            correo: input.email.trimmed,
-            celular: input.phone.trimmed,
-            departamento: input.state.trimmed,
-            ciudad: input.city.trimmed,
-            codigoPostal: input.zipCode.trimmed,
-            direccion: input.address.trimmed,
-            fechaNacimiento: input.bornDate,
-            tipo: .cliente,
-            fechaRegistro: Date()
+            firstName: input.name.trimmed,
+            lastName: input.lastName.trimmed,
+            idCard: input.idCard.trimmed,
+            email: input.email.trimmed,
+            phone: input.phone.trimmed,
+            state: input.state.trimmed,
+            city: input.city.trimmed,
+            zipCode: input.zipCode.trimmed,
+            address: input.address.trimmed,
+            bornDate: input.bornDate,
+            type: .customer,
+            registrationDate: Date()
         )
         
-        // Registrar en el repositorio
+        // Register in repository
         let registeredUser = try await authRepository.signUp(
             email: input.email.trimmed,
             password: input.password,
             user: newUser
         )
         
-        Logger.shared.info("✅ Usuario registrado exitosamente: \(registeredUser.correo)")
+        Logger.shared.info("✅ User registered successfully: \(registeredUser.email)")
         
         return SignUpUseCaseOutput(
             user: registeredUser,
-            message: "Bienvenido a Town's Coffee, \(registeredUser.nombres)"
+            message: "Welcome to Town's Coffee, \(registeredUser.firstName)"
         )
     }
 }
@@ -122,7 +122,7 @@ enum SignUpUseCaseError: LocalizedError {
         case .invalidPhone(let message):
             return message
         case .registrationFailed(let message):
-            return "Error en el registro: \(message)"
+            return "Registration error: \(message)"
         case .unknownError(let message):
             return message
         }

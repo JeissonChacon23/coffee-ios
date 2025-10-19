@@ -53,11 +53,11 @@ class SignInUseCase: SignInUseCaseProtocol {
             password: input.password
         )
         
-        Logger.shared.info("✅ Usuario autenticado: \(user.correo)")
+        Logger.shared.info("✅ Usuario autenticado: \(user.email)")
         
         return SignInUseCaseOutput(
             user: user,
-            message: "Bienvenido de vuelta, \(user.nombres)"
+            message: "Bienvenido de vuelta, \(user.fullName)"
         )
     }
 }
