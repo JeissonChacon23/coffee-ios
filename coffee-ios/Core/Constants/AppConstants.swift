@@ -16,7 +16,7 @@ enum AppConstants {
     // MARK: - Firebase Collections
     enum FirebaseCollections {
         static let users = "users"
-        static let municipios = "municipios"
+        static let towns = "towns"
         static let caficultores = "caficultores"
         static let coffees = "coffees"
         static let orders = "orders"

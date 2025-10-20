@@ -14,7 +14,7 @@ struct CoffeeDTO: Codable {
     let description: String
     let type: String // "arabica", "robusta", "hibrido"
     let roastLevel: String // "Claro", "Medio", "Oscuro", "Muy Oscuro"
-    let pricePerKilo: Double
+    let pricesPerPound: Double
     let availableQuantity: Int
     let imageURL: String
     let farmerID: String
@@ -33,7 +33,7 @@ struct CoffeeDTO: Codable {
         case description
         case type
         case roastLevel
-        case pricePerKilo
+        case pricesPerPound
         case availableQuantity
         case imageURL
         case farmerID

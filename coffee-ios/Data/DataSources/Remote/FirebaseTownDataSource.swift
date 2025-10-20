@@ -23,7 +23,7 @@ class FirebaseTownDataSource: FirebaseTownDataSourceProtocol {
     private let db = Firestore.firestore()
     
     func fetchAllTowns() async throws -> [TownDTO] {
-        let snapshot = try await db.collection(AppConstants.FirebaseCollections.municipios)
+        let snapshot = try await db.collection(AppConstants.FirebaseCollections.towns)
             .whereField("isActive", isEqualTo: true)
             .order(by: "name")
             .getDocuments()
@@ -37,7 +37,7 @@ class FirebaseTownDataSource: FirebaseTownDataSourceProtocol {
     }
     
     func fetchTown(byID id: String) async throws -> TownDTO {
-        let document = try await db.collection(AppConstants.FirebaseCollections.municipios)
+        let document = try await db.collection(AppConstants.FirebaseCollections.towns)
             .document(id)
             .getDocument()
         
@@ -50,7 +50,7 @@ class FirebaseTownDataSource: FirebaseTownDataSourceProtocol {
     }
     
     func fetchTowns(byDepartment department: String) async throws -> [TownDTO] {
-        let snapshot = try await db.collection(AppConstants.FirebaseCollections.municipios)
+        let snapshot = try await db.collection(AppConstants.FirebaseCollections.towns)
             .whereField("department", isEqualTo: department)
             .whereField("isActive", isEqualTo: true)
             .order(by: "name")
@@ -66,7 +66,7 @@ class FirebaseTownDataSource: FirebaseTownDataSourceProtocol {
     
     func searchTowns(query: String) async throws -> [TownDTO] {
         let lowerQuery = query.lowercased()
-        let snapshot = try await db.collection(AppConstants.FirebaseCollections.municipios)
+        let snapshot = try await db.collection(AppConstants.FirebaseCollections.towns)
             .whereField("isActive", isEqualTo: true)
             .getDocuments()
         
@@ -86,7 +86,7 @@ class FirebaseTownDataSource: FirebaseTownDataSourceProtocol {
     }
     
     func fetchTopTownsByCoffeeCount(limit: Int) async throws -> [TownDTO] {
-        let snapshot = try await db.collection(AppConstants.FirebaseCollections.municipios)
+        let snapshot = try await db.collection(AppConstants.FirebaseCollections.towns)
             .whereField("isActive", isEqualTo: true)
             .order(by: "coffeeCount", descending: true)
             .limit(to: limit)
@@ -101,7 +101,7 @@ class FirebaseTownDataSource: FirebaseTownDataSourceProtocol {
     }
     
     func fetchTopTownsByFarmerCount(limit: Int) async throws -> [TownDTO] {
-        let snapshot = try await db.collection(AppConstants.FirebaseCollections.municipios)
+        let snapshot = try await db.collection(AppConstants.FirebaseCollections.towns)
             .whereField("isActive", isEqualTo: true)
             .order(by: "farmerCount", descending: true)
             .limit(to: limit)

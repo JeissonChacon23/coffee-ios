@@ -48,9 +48,9 @@ struct GetCoffeesUseCaseOutput {
 
 // MARK: - GetCoffeesUseCase Protocol
 protocol GetCoffeesUseCaseProtocol {
-    /// Obtiene los cafés con opciones de filtrado
-    /// - Parameter input: Opciones de filtrado y ordenamiento
-    /// - Returns: Lista de cafés y cantidad total
+    /// Gets coffees with filtering options
+    /// - Parameter input: Filtering and sorting options
+    /// - Returns: Coffees list and total count
     func execute(input: GetCoffeesUseCaseInput) async throws -> GetCoffeesUseCaseOutput
 }
 
@@ -65,7 +65,7 @@ class GetCoffeesUseCase: GetCoffeesUseCaseProtocol {
     func execute(input: GetCoffeesUseCaseInput) async throws -> GetCoffeesUseCaseOutput {
         var coffees: [Coffee] = []
         
-        // Obtener cafés según los filtros
+        // Fetch coffees according to filters
         if let searchQuery = input.searchQuery, !searchQuery.isEmpty {
             coffees = try await coffeeRepository.searchCoffees(query: searchQuery)
         } else if let townID = input.townID, !townID.isEmpty {
@@ -80,10 +80,10 @@ class GetCoffeesUseCase: GetCoffeesUseCaseProtocol {
             coffees = try await coffeeRepository.fetchAllCoffees()
         }
         
-        // Aplicar ordenamiento
+        // Apply sorting
         coffees = sortCoffees(coffees, by: input.sortBy)
         
-        Logger.shared.info("✅ Se obtuvieron \(coffees.count) cafés")
+        Logger.shared.info("✅ Fetched \(coffees.count) coffees")
         
         return GetCoffeesUseCaseOutput(
             coffees: coffees,
@@ -94,13 +94,21 @@ class GetCoffeesUseCase: GetCoffeesUseCaseProtocol {
     private func sortCoffees(_ coffees: [Coffee], by option: CoffeeSortOption) -> [Coffee] {
         switch option {
         case .rating:
-            return coffees.sorted { $0.calificacion > $1.calificacion }
+            return coffees.sorted { (coffee1: Coffee, coffee2: Coffee) in
+                coffee1.rating > coffee2.rating
+            }
         case .price:
-            return coffees.sorted { $0.precioKilo < $1.precioKilo }
+            return coffees.sorted { (coffee1: Coffee, coffee2: Coffee) in
+                coffee1.pricePerUnit < coffee2.pricePerUnit
+            }
         case .name:
-            return coffees.sorted { $0.nombre < $1.nombre }
+            return coffees.sorted { (coffee1: Coffee, coffee2: Coffee) in
+                coffee1.name < coffee2.name
+            }
         case .newest:
-            return coffees.sorted { $0.fechaCreacion > $1.fechaCreacion }
+            return coffees.sorted { (coffee1: Coffee, coffee2: Coffee) in
+                coffee1.createdDate > coffee2.createdDate
+            }
         }
     }
 }
@@ -114,9 +122,9 @@ enum GetCoffeesUseCaseError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .fetchFailed(let message):
-            return "Error al obtener cafés: \(message)"
+            return "Error fetching coffees: \(message)"
         case .noCoffeesAvailable:
-            return "No hay cafés disponibles"
+            return "No coffees available"
         case .unknownError(let message):
             return message
         }

@@ -21,9 +21,9 @@ struct GetTownDetailUseCaseOutput {
 
 // MARK: - GetTownDetailUseCase Protocol
 protocol GetTownDetailUseCaseProtocol {
-    /// Obtiene los detalles completos de un town
-    /// - Parameter input: ID del town
-    /// - Returns: Datos del town, cafés y caficultores
+    /// Gets complete details of a town
+    /// - Parameter input: Town ID
+    /// - Returns: Town data, coffees and farmers
     func execute(input: GetTownDetailUseCaseInput) async throws -> GetTownDetailUseCaseOutput
 }
 
@@ -44,12 +44,12 @@ class GetTownDetailUseCase: GetTownDetailUseCaseProtocol {
     }
     
     func execute(input: GetTownDetailUseCaseInput) async throws -> GetTownDetailUseCaseOutput {
-        // Validar que el ID no esté vacío
+        // Validate ID is not empty
         guard !input.townID.isEmpty else {
             throw GetTownDetailUseCaseError.invalidTownID
         }
         
-        // Obtener datos en paralelo para mejor rendimiento
+        // Fetch data in parallel for better performance
         async let townTask = townRepository.fetchTown(byID: input.townID)
         async let coffeesTask = coffeeRepository.fetchCoffees(byTownID: input.townID)
         async let farmersTask = farmerRepository.fetchCoffeeFarmers(byTownID: input.townID)
@@ -58,7 +58,7 @@ class GetTownDetailUseCase: GetTownDetailUseCaseProtocol {
         let coffees = try await coffeesTask
         let farmers = try await farmersTask
         
-        Logger.shared.info("✅ Detalles del town '\(town.nombre)' obtenidos: \(coffees.count) cafés, \(farmers.count) caficultores")
+        Logger.shared.info("✅ Town '\(town.name)' details fetched: \(coffees.count) coffees, \(farmers.count) farmers")
         
         return GetTownDetailUseCaseOutput(
             town: town,
@@ -78,11 +78,11 @@ enum GetTownDetailUseCaseError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidTownID:
-            return "El ID del town es inválido"
+            return "Invalid town ID"
         case .townNotFound:
-            return "El town no existe"
+            return "Town not found"
         case .fetchFailed(let message):
-            return "Error al obtener detalles: \(message)"
+            return "Error fetching details: \(message)"
         case .unknownError(let message):
             return message
         }

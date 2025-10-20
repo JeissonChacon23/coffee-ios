@@ -9,16 +9,16 @@ import Foundation
 
 // MARK: - GetTownsUseCase Input
 struct GetTownsUseCaseInput {
-    let departamento: String?
+    let department: String?
     let searchQuery: String?
     let sortBy: TownSortOption
     
     init(
-        departamento: String? = nil,
+        department: String? = nil,
         searchQuery: String? = nil,
         sortBy: TownSortOption = .name
     ) {
-        self.departamento = departamento
+        self.department = department
         self.searchQuery = searchQuery
         self.sortBy = sortBy
     }
@@ -38,9 +38,9 @@ struct GetTownsUseCaseOutput {
 
 // MARK: - GetTownsUseCase Protocol
 protocol GetTownsUseCaseProtocol {
-    /// Obtiene los towns con opciones de filtrado
-    /// - Parameter input: Opciones de filtrado y ordenamiento
-    /// - Returns: Lista de towns y cantidad total
+    /// Gets towns with filtering options
+    /// - Parameter input: Filtering and sorting options
+    /// - Returns: Towns list and total count
     func execute(input: GetTownsUseCaseInput) async throws -> GetTownsUseCaseOutput
 }
 
@@ -55,19 +55,19 @@ class GetTownsUseCase: GetTownsUseCaseProtocol {
     func execute(input: GetTownsUseCaseInput) async throws -> GetTownsUseCaseOutput {
         var towns: [Town] = []
         
-        // Obtener towns según los filtros
+        // Fetch towns according to filters
         if let searchQuery = input.searchQuery, !searchQuery.isEmpty {
             towns = try await townRepository.searchTowns(query: searchQuery)
-        } else if let departamento = input.departamento, !departamento.isEmpty {
-            towns = try await townRepository.fetchTowns(byDepartamento: departamento)
+        } else if let department = input.department, !department.isEmpty {
+            towns = try await townRepository.fetchTowns(byDepartment: department)
         } else {
             towns = try await townRepository.fetchAllTowns()
         }
         
-        // Aplicar ordenamiento
+        // Apply sorting
         towns = sortTowns(towns, by: input.sortBy)
         
-        Logger.shared.info("✅ Se obtuvieron \(towns.count) towns")
+        Logger.shared.info("✅ Fetched \(towns.count) towns")
         
         return GetTownsUseCaseOutput(
             towns: towns,
@@ -78,11 +78,11 @@ class GetTownsUseCase: GetTownsUseCaseProtocol {
     private func sortTowns(_ towns: [Town], by option: TownSortOption) -> [Town] {
         switch option {
         case .name:
-            return towns.sorted { $0.nombre < $1.nombre }
+            return towns.sorted { $0.name < $1.name }
         case .coffeeCount:
-            return towns.sorted { $0.cafeCount > $1.cafeCount }
+            return towns.sorted { $0.coffeeCount > $1.coffeeCount }
         case .farmerCount:
-            return towns.sorted { $0.caficultoresCount > $1.caficultoresCount }
+            return towns.sorted { $0.farmerCount > $1.farmerCount }
         }
     }
 }
@@ -96,9 +96,9 @@ enum GetTownsUseCaseError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .fetchFailed(let message):
-            return "Error al obtener towns: \(message)"
+            return "Error fetching towns: \(message)"
         case .noTownsAvailable:
-            return "No hay towns disponibles en este momento"
+            return "No towns available at this time"
         case .unknownError(let message):
             return message
         }
